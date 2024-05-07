@@ -6,7 +6,7 @@ const knex = require('knex');
 const db = knex({
     client: 'pg',
     connection: {
-        host: '10.0.2.15',
+        host: '127.0.0.1',
         user: 'postgres',
         password: 'project',
         database: 'attendtrack'
@@ -22,6 +22,16 @@ app.use(express.static(intialPath));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(intialPath, "index.html"));
+})
+
+app.get('/api/attend', (req, res) => {
+    db("attend")
+        .select("*")
+        .from("attend")
+        .then(function (attend) {
+            console.log(attend);
+            res.json(attend);
+        });
 })
 
 app.get('/login', (req, res) => {
